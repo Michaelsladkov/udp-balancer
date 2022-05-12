@@ -7,7 +7,7 @@ class Balancer {
     uint16_t port;
     std::list<struct sockadr_in> ipList;
 public:
-    Balancer(Config config);
-    Balancer(uint64_t mrps, uint16_t port_, std::list<struct sockadr_in> ipList_);
+    Balancer(const Config& config);
+    Balancer(const uint64_t mrps, const uint16_t port_, cont std::list<struct sockadr_in>& ipList_);
     void start();
 }
