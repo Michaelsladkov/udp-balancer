@@ -41,7 +41,7 @@ Balancer::Balancer(const Config &config) : socket(config.port) {
 }
 
 void Balancer::processNextRequest() {
-    socket.receiveData();
+    ssize_t datagramLength = socket.receiveData();
     time_t now = std::time(NULL);
     while (!timeQueue.empty() && now - timeQueue.front() > 1) {
         timeQueue.pop_front();
@@ -51,10 +51,12 @@ void Balancer::processNextRequest() {
         return;
     }
     timeQueue.push_back(now);
-    socket.sendData(*currentAddr, socket.getData(), 100);
+    socket.sendData(*currentAddr, socket.getData(), datagramLength);
+
     char ip[20];
     inet_ntop(AF_INET, &((*currentAddr).sin_addr), ip, INET_ADDRSTRLEN);
-    std::cerr << "redirected to " << ip << std::endl;
+    std::cerr << "redirected to " << ip << ":" << (*currentAddr).sin_port
+              << std::endl;
     currentAddr++;
     if (currentAddr == ipList.end()) {
         currentAddr = ipList.begin();

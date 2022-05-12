@@ -12,13 +12,13 @@
 class DatagramManipulator {
     int socketDescriptor;
     struct sockaddr_in serAddr;
-    uint8_t buff[UDP_PACKET_MAX_SIZE + 1];
+    char buff[UDP_PACKET_MAX_SIZE + 1] = {0};
 
   public:
     DatagramManipulator(uint16_t port);
     ~DatagramManipulator();
-    void receiveData();
-    uint8_t *getData();
+    ssize_t receiveData();
+    char *getData();
     struct in_addr getAddr();
-    void sendData(struct sockaddr_in addr, uint8_t *data, size_t size);
+    void sendData(struct sockaddr_in addr, char *data, size_t size);
 };

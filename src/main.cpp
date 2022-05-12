@@ -9,9 +9,12 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
-int main() {
+int main(int argc, char **argv) {
     std::ifstream inp;
-    inp.open("config.txt");
+    if (argc < 2)
+        inp.open("config.txt");
+    else
+        inp.open(argv[1]);
     Config config = ConfigReader::readConfig(inp);
 
     if (!config.isValid) {
