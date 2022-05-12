@@ -2,7 +2,7 @@
 
 #include <regex>
 
-Config ConfigReader::readConfig(std::ifstream input) {
+Config ConfigReader::readConfig(std::ifstream &input) {
     uint64_t mrps;
     input >> mrps;
     if (!mrps) {

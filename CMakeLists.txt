@@ -9,9 +9,22 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 file(GLOB_RECURSE CPP_FILES CONFIGURE_DEPENDS src/*.cpp)
-file(GLOB_RECURSE H_FILES CONFIGURE_DEPENDS headers/*.h headers/*.hpp)
+file(GLOB_RECURSE H_FILES CONFIGURE_DEPENDS incude/*.h include/*.hpp)
 
 add_compile_options(-g -Wall -Werror)
 
 add_executable(udp-balancer ${CPP_FILES})
 target_include_directories(udp-balancer PUBLIC ${CMAKE_SOURCE_DIR}/include)
+
+
+add_custom_target(clang-format
+  COMMAND
+    clang-format
+    -style=file
+    -i
+    ${CPP_FILES} ${H_FILES}
+  WORKING_DIRECTORY
+    ${CMAKE_SOURCE_DIR}
+  COMMENT
+    "Running clang-format on sources..."
+)
