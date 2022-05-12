@@ -1,8 +1,13 @@
+#include "Balancer.hpp"
 #include "Config.hpp"
-#include "DatagramReceiver.hpp"
 
 #include <fstream>
 #include <iostream>
+
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
+#include <unistd.h>
 
 int main() {
     std::ifstream inp;
@@ -13,14 +18,11 @@ int main() {
         std::cerr << "config file is invalid" << std::endl;
         return -1;
     }
-    
-    DatagramReceiver receiver(1488);
-    struct in_addr addr = receiver.getAddr();
-    std::cout << addr.s_addr << std::endl;
-    while(true) {
-        if (receiver.receiveData()) {
-            std::cout << "got it\n";
-        }
+
+    Balancer balancer(config);
+
+    while (true) {
+        balancer.processNextRequest();
     }
 
     return 0;
