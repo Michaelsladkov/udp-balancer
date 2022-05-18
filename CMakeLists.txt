@@ -13,8 +13,8 @@ file(GLOB_RECURSE H_FILES CONFIGURE_DEPENDS incude/*.h include/*.hpp)
 
 add_compile_options(-g -Wall -Werror)
 
-add_executable(udp-balancer ${CPP_FILES})
-target_include_directories(udp-balancer PUBLIC ${CMAKE_SOURCE_DIR}/include)
+add_executable(${PROJECT_NAME} ${CPP_FILES})
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/include)
 
 
 add_custom_target(clang-format
